@@ -4,28 +4,7 @@
     <div class="sortList clearfix">
       <div class="center">
         <!--banner轮播-->
-        <div class="swiper-container" id="mySwiper">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <img src="./images/banner1.jpg" />
-            </div>
-            <!--   <div class="swiper-slide">
-              <img src="./images/banner2.jpg" />
-            </div> -->
-            <!--   <div class="swiper-slide">
-              <img src="./images/banner3.jpg" />
-            </div>
-            <div class="swiper-slide">
-              <img src="./images/banner4.jpg" />
-            </div> -->
-          </div>
-          <!-- 如果需要分页器 -->
-          <div class="swiper-pagination"></div>
-
-          <!-- 如果需要导航按钮 -->
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-button-next"></div>
-        </div>
+        <Carousel :list="bannerList" />
       </div>
       <div class="right">
         <div class="news">
@@ -101,8 +80,22 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
+// import { nextTick } from 'vue/types/umd'
 export default {
   name: 'ListContainer',
+  mounted() {
+    // mounted组件挂载完毕 正常说组件结构（DOM）已经全有了
+    // 为什么swiner实例在mouted当中直接书写不行 因为结构还没有完毕
+    // 派发action:通过vuex发起ajax请求 将数据仓库储存在仓库当中
+    this.$store.dispatch('getBannerList')
+  },
+  computed: {
+    ...mapState({
+      bannerList: (state) => state.home.bannerList,
+    }),
+  },
 }
 </script>
 

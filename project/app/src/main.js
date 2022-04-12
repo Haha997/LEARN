@@ -5,9 +5,16 @@ import App from "./App.vue";
 import TypeNav from "@/components/TypeNav";
 Vue.component(TypeNav.name, TypeNav);
 
+// 轮播图全局组件
+import Carsousel from "@/components/Carousel";
+Vue.component(Carsousel.name, Carsousel);
 // 引入路由
 import router from "@/router";
-// console.log("router=>", router);
+// 引入mockserve.js mock数据
+import "@/mock/mockServe";
+// 引入swiper样式
+import "swiper/css/swiper.css";
+
 Vue.config.productionTip = false;
 
 // 引入仓库
