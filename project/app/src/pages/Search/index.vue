@@ -172,6 +172,20 @@ export default {
   computed: {
     ...mapGetters(['goodsList']),
   },
+  watch: {
+    //  监听路由的信息是否发生变化 如果发生变化 再次发起请求
+    $route(newValue, oldValue) {
+      // 再次发请求之前整理带给服务器参数
+      Object.assign(this.searchParams, this.$route.query, this.$route.params)
+      // 再次发起ajax请求
+      this.getData()
+      // 每一次请求完毕 把相应的1 2 3级分类的id置空 接收下一次的相应的1 2 3级id
+      // 分类名字和关键字不用清理 因为每一次路由发生变化的时候 都会给他赋予新的数据
+      this.searchParams.category1Id = ''
+      this.searchParams.category2Id = ''
+      this.searchParams.category3Id = ''
+    },
+  },
 }
 </script>
 
