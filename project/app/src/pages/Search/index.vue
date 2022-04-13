@@ -22,11 +22,16 @@
             <li class="with-x" v-if="searchParams.keyword">
               {{ searchParams.keyword }}<i @click="removeKeyword">x</i>
             </li>
+            <!-- 品牌的面包屑 -->
+            <li class="with-x" v-if="searchParams.trademark">
+              {{ searchParams.trademark.split(':')[1]
+              }}<i @click="removeTrademark">x</i>
+            </li>
           </ul>
         </div>
 
         <!--selector-->
-        <SearchSelector />
+        <SearchSelector @trademarkInfo="trademarkInfo" />
 
         <!--details-->
         <div class="details clearfix">
@@ -168,10 +173,10 @@ export default {
     // 删除分类的名字
     removeCateGoryName() {
       // 属性值为空的字符串还是会把相应的字段带给服务器 如果把相应的字段改为undefined 当前这个字段不会带给服务器
-      this.searchParams.categoryName = 'undefined' //把带给服务器的参数置空了 还需要向服务器发请求
-      this.searchParams.category1Id = 'undefined'
-      this.searchParams.category2Id = 'undefined'
-      this.searchParams.category3Id = 'undefined'
+      this.searchParams.categoryName = undefined //把带给服务器的参数置空了 还需要向服务器发请求
+      this.searchParams.category1Id = undefined
+      this.searchParams.category2Id = undefined
+      this.searchParams.category3Id = undefined
       this.getData() //再次发起请求
       // 地址栏也需要修改 进行路由的跳转
       if (this.$route.params) {
@@ -189,6 +194,19 @@ export default {
       if (this.$route.query) {
         this.$router.push({ name: 'search', query: this.$route.query })
       }
+    },
+    // 自定义事件回调
+    trademarkInfo(trademark) {
+      // 整理品牌字段的参数 ID:品牌名称
+      this.searchParams.trademark = `${trademark.tmId}:${trademark.tmName}`
+      // 再次发请求获取search模块数据进行展示
+      this.getData()
+    },
+    // 删除品牌的信息
+    removeTrademark() {
+      // 将品牌信息置空 再次发起请求
+      this.searchParams.trademark = undefined
+      this.getData()
     },
   },
   // 组件挂载完毕之前执行一次
