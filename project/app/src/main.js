@@ -22,6 +22,10 @@ import store from "@/store";
 
 new Vue({
   render: (h) => h(App),
+  // 全局事件总线$bus配置
+  beforeCreate() {
+    Vue.prototype.$bus = this;
+  },
   // 注册路由:底下的写法键值对一致省略v（router小写）
   // 注册路由信息 当这里书写router的时候 组件身上就有了$route $router属性
   router,
