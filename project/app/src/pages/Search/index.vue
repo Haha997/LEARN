@@ -13,10 +13,10 @@
             </li>
           </ul>
           <ul class="fl sui-tag">
-            <li class="with-x">手机</li>
-            <li class="with-x">iphone<i>×</i></li>
-            <li class="with-x">华为<i>×</i></li>
-            <li class="with-x">OPPO<i>×</i></li>
+            <li class="with-x" v-if="searchParams.catagoryName">
+              {{ searchParams.catagoryName
+              }}<i @click="removeCateGoryName">x</i>
+            </li>
           </ul>
         </div>
 
@@ -160,6 +160,20 @@ export default {
     getData() {
       this.$store.dispatch('getSearchList', this.searchParams)
     },
+    // 删除分类的名字
+    removeCateGoryName() {
+      // 属性值为空的字符串还是会把相应的字段带给服务器 如果把相应的字段改为undefined 当前这个字段不会带给服务器
+      this.searchParams.categoryName = 'undefined' //把带给服务器的参数置空了 还需要向服务器发请求
+      this.searchParams.category1Id = 'undefined'
+      this.searchParams.category2Id = 'undefined'
+      this.searchParams.category3Id = 'undefined'
+      this.getData() //再次发起请求
+      // 地址栏也需要修改 进行路由的跳转
+      if (this.$route.params) {
+        // 本意是删除query 路径当中出现params不应该删除 路由跳转的时候应该带着
+        this.$router.push({ name: 'search', params: this.$route.params })
+      }
+    },
   },
   // 组件挂载完毕之前执行一次
   beforeMount() {
@@ -181,9 +195,9 @@ export default {
       this.getData()
       // 每一次请求完毕 把相应的1 2 3级分类的id置空 接收下一次的相应的1 2 3级id
       // 分类名字和关键字不用清理 因为每一次路由发生变化的时候 都会给他赋予新的数据
-      this.searchParams.category1Id = ''
-      this.searchParams.category2Id = ''
-      this.searchParams.category3Id = ''
+      this.searchParams.category1Id = 'undefined'
+      this.searchParams.category2Id = 'undefined'
+      this.searchParams.category3Id = 'undefined'
     },
   },
 }
