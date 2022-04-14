@@ -2,14 +2,13 @@
   <div>
     <!-- 商品分类三级列表 -->
     <TypeNav />
-
     <div class="main">
       <div class="py-container">
         <!--bread 带有x的结构-->
         <div class="bread">
           <ul class="fl sui-breadcrumb">
             <li>
-              <a href="#">全部结果aaaa</a>
+              <a href="#">全部结果</a>
             </li>
           </ul>
           <ul class="fl sui-tag">
@@ -41,7 +40,7 @@
         <!--selector-->
         <SearchSelector @trademarkInfo="trademarkInfo" @attrInfo="attrInfo" />
 
-        <template v-if="temp">
+        <template v-if="!temp">
           <!--details-->
           <div class="details clearfix">
             <div class="sui-navbar">
@@ -52,7 +51,7 @@
                     <a
                       >综合<span
                         v-show="isOne"
-                        class="iconfont"
+                        class="icon iconfont"
                         :class="{
                           'icon-long-arrow-down': isAsc,
                           'icon-long-arrow-up': isDesc,
@@ -64,7 +63,7 @@
                     <a
                       >价格<span
                         v-show="isTwo"
-                        class="iconfont"
+                        class="icon iconfont"
                         :class="{
                           'icon-long-arrow-down': isAsc,
                           'icon-long-arrow-up': isDesc,

@@ -1,10 +1,10 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3327309 */
-  src: url('iconfont.woff2?t=1649896583718') format('woff2'),
-       url('iconfont.woff?t=1649896583718') format('woff'),
-       url('iconfont.ttf?t=1649896583718') format('truetype');
+  src: url('./font/iconfont.woff2?t=1649896583718') format('woff2'),
+       url('./font/iconfont.woff?t=1649896583718') format('woff'),
+       url('./font/iconfont.ttf?t=1649896583718') format('truetype');
 }
-
+/* *{color: red} */
 .iconfont {
   font-family: "iconfont" !important;
   font-size: 16px;
