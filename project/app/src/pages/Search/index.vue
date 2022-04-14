@@ -14,18 +14,18 @@
           </ul>
           <ul class="fl sui-tag">
             <!-- 分类的面包屑 -->
-            <li class="with-x" v-if="searchParams.catagoryName">
-              {{ searchParams.catagoryName
+            <li class="with-x" v-if="searchParams.categoryName">
+              a: {{ searchParams.catagoryName
               }}<i @click="removeCateGoryName">x</i>
             </li>
             <!-- 关键字的面包屑 -->
             <li class="with-x" v-if="searchParams.keyword">
-              {{ searchParams.keyword }}<i @click="removeKeyword">x</i>
+              b:{{ searchParams.keyword }}<i @click="removeKeyword">x</i>
             </li>
             <!-- 品牌的面包屑 -->
             <li class="with-x" v-if="searchParams.trademark">
-              {{ searchParams.trademark.split(':')[1]
-              }}<i @click="removeTrademark">x</i>
+              c: {{ searchParams.trademark.split(':')[1] }}
+              <i @click="removeTrademark">x</i>
             </li>
 
             <!-- 品牌售卖的属性值展示 -->
@@ -34,120 +34,121 @@
               v-for="(attrValue, index) in searchParams.props"
               :key="index"
             >
-              {{ attrValue.split(':')[1] }}<i @click="removeAttr(index)">x</i>
+              d:{{ attrValue.split(':')[1] }}<i @click="removeAttr(index)">x</i>
             </li>
           </ul>
         </div>
-
         <!--selector-->
         <SearchSelector @trademarkInfo="trademarkInfo" @attrInfo="attrInfo" />
 
-        <!--details-->
-        <div class="details clearfix">
-          <div class="sui-navbar">
-            <div class="navbar-inner filter">
-              <!-- 排序结构 -->
-              <ul class="sui-nav">
-                <li :class="{ active: isOne }">
-                  <a
-                    >综合<span
-                      v-show="isOne"
-                      class="iconfont"
-                      :class="{
-                        'icon-long-arrow-down': isAsc,
-                        'icon-long-arrow-up': isDesc,
-                      }"
-                    ></span
-                  ></a>
-                </li>
-                <li :class="{ active: isTwo }">
-                  <a
-                    >价格<span
-                      v-show="isTwo"
-                      class="iconfont"
-                      :class="{
-                        'icon-long-arrow-down': isAsc,
-                        'icon-long-arrow-up': isDesc,
-                      }"
-                    ></span
-                  ></a>
+        <template v-if="temp">
+          <!--details-->
+          <div class="details clearfix">
+            <div class="sui-navbar">
+              <div class="navbar-inner filter">
+                <!-- 排序结构 -->
+                <ul class="sui-nav">
+                  <li :class="{ active: isOne }" @click="changeOrder(1)">
+                    <a
+                      >综合<span
+                        v-show="isOne"
+                        class="iconfont"
+                        :class="{
+                          'icon-long-arrow-down': isAsc,
+                          'icon-long-arrow-up': isDesc,
+                        }"
+                      ></span
+                    ></a>
+                  </li>
+                  <li :class="{ active: isTwo }" @click="changeOrder(2)">
+                    <a
+                      >价格<span
+                        v-show="isTwo"
+                        class="iconfont"
+                        :class="{
+                          'icon-long-arrow-down': isAsc,
+                          'icon-long-arrow-up': isDesc,
+                        }"
+                      ></span
+                    ></a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!-- 销售的产品列表 -->
+            <div class="goods-list">
+              <ul class="yui3-g">
+                <li class="yui3-u-1-5" v-for="good in goodsList" :key="good.id">
+                  <div class="list-wrap">
+                    <div class="p-img">
+                      <a href="item.html" target="_blank"
+                        ><img :src="good.defaultImg"
+                      /></a>
+                    </div>
+                    <div class="price">
+                      <strong>
+                        <em>¥</em>
+                        <i>{{ good.price }}</i>
+                      </strong>
+                    </div>
+                    <div class="attr">
+                      <a
+                        target="_blank"
+                        href="item.html"
+                        title="促销信息，下单即赠送三个月CIBN视频会员卡！【小米电视新品4A 58 火爆预约中】"
+                        >{{ good.title }}</a
+                      >
+                    </div>
+                    <div class="commit">
+                      <i class="command">已有<span>2000</span>人评价</i>
+                    </div>
+                    <div class="operate">
+                      <a
+                        href="success-cart.html"
+                        target="_blank"
+                        class="sui-btn btn-bordered btn-danger"
+                        >加入购物车</a
+                      >
+                      <a href="javascript:void(0);" class="sui-btn btn-bordered"
+                        >收藏</a
+                      >
+                    </div>
+                  </div>
                 </li>
               </ul>
             </div>
-          </div>
-          <!-- 销售的产品列表 -->
-          <div class="goods-list">
-            <ul class="yui3-g">
-              <li class="yui3-u-1-5" v-for="good in goodsList" :key="good.id">
-                <div class="list-wrap">
-                  <div class="p-img">
-                    <a href="item.html" target="_blank"
-                      ><img :src="good.defaultImg"
-                    /></a>
-                  </div>
-                  <div class="price">
-                    <strong>
-                      <em>¥</em>
-                      <i>{{ good.price }}</i>
-                    </strong>
-                  </div>
-                  <div class="attr">
-                    <a
-                      target="_blank"
-                      href="item.html"
-                      title="促销信息，下单即赠送三个月CIBN视频会员卡！【小米电视新品4A 58 火爆预约中】"
-                      >{{ good.title }}</a
-                    >
-                  </div>
-                  <div class="commit">
-                    <i class="command">已有<span>2000</span>人评价</i>
-                  </div>
-                  <div class="operate">
-                    <a
-                      href="success-cart.html"
-                      target="_blank"
-                      class="sui-btn btn-bordered btn-danger"
-                      >加入购物车</a
-                    >
-                    <a href="javascript:void(0);" class="sui-btn btn-bordered"
-                      >收藏</a
-                    >
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <!-- 分页器 -->
-          <div class="fr page">
-            <div class="sui-pagination clearfix">
-              <ul>
-                <li class="prev disabled">
-                  <a href="#">«上一页</a>
-                </li>
-                <li class="active">
-                  <a href="#">1</a>
-                </li>
-                <li>
-                  <a href="#">2</a>
-                </li>
-                <li>
-                  <a href="#">3</a>
-                </li>
-                <li>
-                  <a href="#">4</a>
-                </li>
-                <li>
-                  <a href="#">5</a>
-                </li>
-                <li class="dotted"><span>...</span></li>
-                <li class="next">
-                  <a href="#">下一页»</a>
-                </li>
-              </ul>
-              <div><span>共10页&nbsp;</span></div>
+            <!-- 分页器 -->
+            <div class="fr page">
+              <div class="sui-pagination clearfix">
+                <ul>
+                  <li class="prev disabled">
+                    <a href="#">«上一页</a>
+                  </li>
+                  <li class="active">
+                    <a href="#">1</a>
+                  </li>
+                  <li>
+                    <a href="#">2</a>
+                  </li>
+                  <li>
+                    <a href="#">3</a>
+                  </li>
+                  <li>
+                    <a href="#">4</a>
+                  </li>
+                  <li>
+                    <a href="#">5</a>
+                  </li>
+                  <li class="dotted"><span>...</span></li>
+                  <li class="next">
+                    <a href="#">下一页»</a>
+                  </li>
+                </ul>
+                <div><span>共10页&nbsp;</span></div>
+              </div>
             </div>
           </div>
-        </div>
+        </template>
       </div>
     </div>
   </div>
@@ -163,6 +164,7 @@ export default {
   },
   data() {
     return {
+      temp: false,
       searchParams: {
         category1Id: '',
         category2Id: '',
@@ -172,10 +174,50 @@ export default {
         order: '1:desc', //排序
         pageNo: 1, //分页 默认是1
         pageSize: 3, //每一页展示数据的个数
-        props: [''], //平台售卖属性操作带的参数
+        props: [], //平台售卖属性操作带的参数
         trademark: '', //品牌
       },
     }
+  },
+  computed: {
+    ...mapGetters(['goodsList']),
+    // 多谢注释  每个方法 是做什么的
+    isOne() {
+      return this.searchParams.order.indexOf('1') != -1
+    },
+    // 多谢注释  每个方法 是做什么的
+    isTwo() {
+      return this.searchParams.order.indexOf('2') != -1
+    },
+    isAsc() {
+      return this.searchParams.order.indexOf('asc') != -1
+    },
+    isDesc() {
+      return this.searchParams.order.indexOf('desc') != -1
+    },
+  },
+  watch: {
+    //  监听路由的信息是否发生变化 如果发生变化 再次发起请求
+    $route() {
+      // 再次发请求之前整理带给服务器参数
+      Object.assign(this.searchParams, this.$route.query, this.$route.params)
+      // 再次发起ajax请求
+      this.getData()
+      // 每一次请求完毕 把相应的1 2 3级分类的id置空 接收下一次的相应的1 2 3级id
+      // 分类名字和关键字不用清理 因为每一次路由发生变化的时候 都会给他赋予新的数据
+      this.searchParams.category1Id = undefined
+      this.searchParams.category2Id = undefined
+      this.searchParams.category3Id = undefined
+    },
+  },
+  // 组件挂载完毕之前执行一次
+  beforeMount() {
+    Object.assign(this.searchParams, this.$route.query, this.$route.params)
+  },
+  // 组件挂载完毕执行一次
+  mounted() {
+    console.log('this.searchParams', this.searchParams)
+    this.getData()
   },
   methods: {
     // 像服务器发送请求获取search模块数据（根据参数不同返回不同的数据进行展示）
@@ -236,42 +278,24 @@ export default {
       this.searchParams.props.splice(index, 1)
       this.getData()
     },
-  },
-  // 组件挂载完毕之前执行一次
-  beforeMount() {
-    Object.assign(this.searchParams, this.$route.query, this.$route.params)
-  },
-  // 组件挂载完毕执行一次
-  mounted() {
-    this.getData()
-  },
-  computed: {
-    ...mapGetters(['goodsList']),
-    isOne() {
-      return this.searchParams.searchParams.order.indexOf('1') != -1
-    },
-    isTwo() {
-      return this.searchParams.searchParams.order.indexOf('2') != -1
-    },
-    isAsc() {
-      return this.searchParams.order.indexOf('asc') != -1
-    },
-    isDesc() {
-      return this.searchParams.order.indexOf('deasc') != -1
-    },
-  },
-  watch: {
-    //  监听路由的信息是否发生变化 如果发生变化 再次发起请求
-    $route() {
-      // 再次发请求之前整理带给服务器参数
-      Object.assign(this.searchParams, this.$route.query, this.$route.params)
-      // 再次发起ajax请求
+    // 排序的操作
+    changeOrder(flag) {
+      // flag形参：是一个标记 代表用户点击是综合1 价格2
+      // let originOrder = this.searchParams.order    //起始状态  1 desc
+      // 获取最开始的状态
+      let originFlag = this.searchParams.order.slice(':')[0] //起始是1 还是2
+      let originSort = this.searchParams.order.slice(':')[1] //起始是asc 还是desc
+      let newOrder = ''
+      // 点击的是综合
+      if (flag == originFlag) {
+        newOrder = `${originFlag}:${originSort == 'desc' ? 'asc' : 'desc'}}`
+      } else {
+        // 点击的是价格
+        newOrder = `${flag}:${'desc'}`
+      }
+      // 将新的order赋予searchparams
+      this.searchParams.order = newOrder
       this.getData()
-      // 每一次请求完毕 把相应的1 2 3级分类的id置空 接收下一次的相应的1 2 3级id
-      // 分类名字和关键字不用清理 因为每一次路由发生变化的时候 都会给他赋予新的数据
-      this.searchParams.category1Id = undefined
-      this.searchParams.category2Id = undefined
-      this.searchParams.category3Id = undefined
     },
   },
 }

@@ -7,7 +7,7 @@
           <li
             v-for="trademark in trademarkList"
             :key="trademark.tmId"
-            @click="tradeMatkHandler"
+            @click="tradeMatkHandler(trademark)"
           >
             {{ trademark.tmName }}
           </li>
@@ -47,6 +47,7 @@ export default {
   methods: {
     // 品牌的事件处理函数
     tradeMatkHandler(trademark) {
+      console.log('trademark', trademark)
       this.$emit('trademarkInfo', trademark)
     },
     // 平台售卖属性
