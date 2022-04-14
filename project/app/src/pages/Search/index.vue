@@ -46,24 +46,31 @@
         <div class="details clearfix">
           <div class="sui-navbar">
             <div class="navbar-inner filter">
+              <!-- 排序结构 -->
               <ul class="sui-nav">
-                <li class="active">
-                  <a href="#">综合</a>
+                <li :class="{ active: isOne }">
+                  <a
+                    >综合<span
+                      v-show="isOne"
+                      class="iconfont"
+                      :class="{
+                        'icon-long-arrow-down': isAsc,
+                        'icon-long-arrow-up': isDesc,
+                      }"
+                    ></span
+                  ></a>
                 </li>
-                <li>
-                  <a href="#">销量</a>
-                </li>
-                <li>
-                  <a href="#">新品</a>
-                </li>
-                <li>
-                  <a href="#">评价</a>
-                </li>
-                <li>
-                  <a href="#">价格⬆</a>
-                </li>
-                <li>
-                  <a href="#">价格⬇</a>
+                <li :class="{ active: isTwo }">
+                  <a
+                    >价格<span
+                      v-show="isTwo"
+                      class="iconfont"
+                      :class="{
+                        'icon-long-arrow-down': isAsc,
+                        'icon-long-arrow-up': isDesc,
+                      }"
+                    ></span
+                  ></a>
                 </li>
               </ul>
             </div>
@@ -71,11 +78,7 @@
           <!-- 销售的产品列表 -->
           <div class="goods-list">
             <ul class="yui3-g">
-              <li
-                class="yui3-u-1-5"
-                v-for="(good, index) in goodsList"
-                :key="good.id"
-              >
+              <li class="yui3-u-1-5" v-for="good in goodsList" :key="good.id">
                 <div class="list-wrap">
                   <div class="p-img">
                     <a href="item.html" target="_blank"
@@ -166,7 +169,7 @@ export default {
         category3Id: '',
         categoryName: '', //分类名字
         keyword: '',
-        order: '', //排序
+        order: '1:desc', //排序
         pageNo: 1, //分页 默认是1
         pageSize: 3, //每一页展示数据的个数
         props: [''], //平台售卖属性操作带的参数
@@ -244,6 +247,18 @@ export default {
   },
   computed: {
     ...mapGetters(['goodsList']),
+    isOne() {
+      return this.searchParams.searchParams.order.indexOf('1') != -1
+    },
+    isTwo() {
+      return this.searchParams.searchParams.order.indexOf('2') != -1
+    },
+    isAsc() {
+      return this.searchParams.order.indexOf('asc') != -1
+    },
+    isDesc() {
+      return this.searchParams.order.indexOf('deasc') != -1
+    },
   },
   watch: {
     //  监听路由的信息是否发生变化 如果发生变化 再次发起请求
