@@ -118,10 +118,11 @@
             </div>
             <!-- 分页器 -->
             <MyPagenation
-              :pageNo="1"
-              :pageSize="3"
-              :total="90"
+              :pageNo="searchParams.pageNo"
+              :pageSize="searchParams.pageSize"
+              :total="total"
               :continues="5"
+              @getPageNo="getPageNo"
             />
           </div>
         </template>
@@ -131,7 +132,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import SearchSelector from './SearchSelector/SearchSelector'
 export default {
   name: 'MySearch',
@@ -171,6 +172,10 @@ export default {
     isDesc() {
       return this.searchParams.order.indexOf('desc') != -1
     },
+    // 获取search模块展产品一共多少数据
+    ...mapState({
+      total: (state) => state.search.searchList.total,
+    }),
   },
   watch: {
     //  监听路由的信息是否发生变化 如果发生变化 再次发起请求
@@ -271,6 +276,12 @@ export default {
       }
       // 将新的order赋予searchparams
       this.searchParams.order = newOrder
+      this.getData()
+    },
+    // 自定义事件的回调函数 获取当前第几页
+    getPageNo(pageNo) {
+      // 整理带服务器的参数
+      this.searchParams.pageNo = pageNo
       this.getData()
     },
   },
