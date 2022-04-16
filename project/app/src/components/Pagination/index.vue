@@ -1,9 +1,14 @@
 <template>
   <div class="pagination">
+    <!-- 上面部分 -->
     <button :disabled="pageNo == 1" @click="$emit('getPageNo', pageNo - 1)">
       上一页
     </button>
-    <button v-if="startNumAndEndNum.start > 1" @click="$emit('getPageNo', 1)">
+    <button
+      v-if="startNumAndEndNum.start > 1"
+      @click="$emit('getPageNo', 1)"
+      :class="{ active: pageNo == 1 }"
+    >
       1
     </button>
     <button v-if="startNumAndEndNum.start > 2">···</button>
@@ -14,6 +19,7 @@
       :key="index"
       v-if="page >= startNumAndEndNum.start"
       @click="$emit('getPageNo', page)"
+      :class="{ active: pageNo == page }"
     >
       {{ page }}
     </button>
@@ -23,6 +29,7 @@
     <button
       v-if="startNumAndEndNum.end < totalPage"
       @click="$emit('getPageNo', totalPage)"
+      :class="{ active: pageNo == totalPage }"
     >
       {{ totalPage }}
     </button>
@@ -104,5 +111,8 @@ export default {
       color: #fff;
     }
   }
+}
+.active {
+  background-color: skyblue;
 }
 </style>
