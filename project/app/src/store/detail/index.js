@@ -17,7 +17,18 @@ const actions = {
     }
   },
 };
-const getters = {};
+const getters = {
+  // 简化数据
+  categoryView(state) {
+    // state.goodsInfo原始状态是空对象 空对象的categoryView属性值是undefined
+    // 当前计算的categoryView属性值至少是一个空对象 假的报错就不会有
+    // 不加{}也不会影响程序
+    return state.goodsInfo.categoryView || {};
+  },
+  skuInfo(state) {
+    return state.goodsInfo.skuInfo || {};
+  },
+};
 
 export default {
   states,
